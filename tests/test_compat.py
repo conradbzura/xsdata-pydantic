@@ -2,9 +2,7 @@ from unittest import TestCase
 
 from xsdata.formats.dataclass.compat import class_types
 
-from xsdata_pydantic.compat import AnyElement
-from xsdata_pydantic.compat import DerivedElement
-from xsdata_pydantic.compat import Pydantic
+from xsdata_pydantic.compat import AnyElement, DerivedElement, Pydantic
 
 
 class PydanticTests(TestCase):

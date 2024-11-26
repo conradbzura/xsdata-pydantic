@@ -1,7 +1,6 @@
 from decimal import Decimal
 from typing import List, Optional
 
-from pydantic import BaseModel, ConfigDict
 from xsdata.models.datatype import XmlDate
 
 from xsdata_pydantic.fields import field

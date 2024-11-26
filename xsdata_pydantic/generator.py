@@ -1,8 +1,6 @@
-from typing import Dict
-from typing import List
-from typing import Optional
+from typing import Dict, List, Optional
 
-from xsdata.codegen.models import Class, Attr
+from xsdata.codegen.models import Attr, Class
 from xsdata.formats.dataclass.filters import Filters
 from xsdata.formats.dataclass.generator import DataclassGenerator
 from xsdata.models.config import GeneratorConfig
@@ -26,7 +24,12 @@ class PydanticFilters(Filters):
         self.default_class_annotation = None
 
     def post_meta_hook(self, obj: Class) -> Optional[str]:
-        return "model_config = ConfigDict(defer_build=True)"
+        return """model_config = ConfigDict(
+            arbitrary_types_allowed=True,
+            use_enum_values=True,
+            validate_default=True,
+            defer_build=True,
+        )"""
 
     def class_bases(self, obj: Class, class_name: str) -> List[str]:
         result = super().class_bases(obj, class_name)

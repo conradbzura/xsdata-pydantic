@@ -1,10 +1,7 @@
-from dataclasses import dataclass
-from dataclasses import field
+from dataclasses import dataclass, field
 from typing import Callable, Optional
 
-from xsdata.formats.dataclass import context
-from xsdata.formats.dataclass import parsers
-from xsdata.formats.dataclass import serializers
+from xsdata.formats.dataclass import context, parsers, serializers
 from xsdata.utils.constants import return_input
 
 
@@ -32,7 +29,10 @@ class XmlContext(context.XmlContext):
         models_package: Optional[str] = None,
     ):
         super().__init__(
-            element_name_generator, attribute_name_generator, "pydantic", models_package
+            element_name_generator,
+            attribute_name_generator,
+            "pydantic",
+            models_package,
         )
 
 

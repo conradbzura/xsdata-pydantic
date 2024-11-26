@@ -2,11 +2,8 @@ from datetime import datetime
 from unittest import TestCase
 
 from tests.fixtures.common import TypeC
-
-from xsdata_pydantic.bindings import XmlParser
-from xsdata_pydantic.bindings import XmlSerializer
-from xsdata_pydantic.compat import AnyElement
-from xsdata_pydantic.compat import DerivedElement
+from xsdata_pydantic.bindings import XmlParser, XmlSerializer
+from xsdata_pydantic.compat import AnyElement, DerivedElement
 
 
 class BindingsTests(TestCase):

@@ -1,27 +1,30 @@
 from dataclasses import MISSING
-from typing import Any, NamedTuple
-from typing import Callable
-from typing import Dict
-from typing import Generic
-from typing import Iterator
-from typing import List
-from typing import Optional
-from typing import Type
-from typing import TypeVar
+from typing import (
+    Any,
+    Callable,
+    Dict,
+    Generic,
+    Iterator,
+    List,
+    NamedTuple,
+    Optional,
+    Type,
+    TypeVar,
+)
 from xml.etree.ElementTree import QName
 
-from pydantic import BaseModel
-from pydantic_core import core_schema
-from pydantic_core import PydanticUndefined
+from pydantic import BaseModel, ConfigDict
+from pydantic_core import PydanticUndefined, core_schema
 from xsdata.formats.converter import converter
-from xsdata.formats.dataclass.compat import class_types
-from xsdata.formats.dataclass.compat import Dataclasses
+from xsdata.formats.dataclass.compat import Dataclasses, class_types
 from xsdata.formats.dataclass.models.elements import XmlType
-from xsdata.models.datatype import XmlDate
-from xsdata.models.datatype import XmlDateTime
-from xsdata.models.datatype import XmlDuration
-from xsdata.models.datatype import XmlPeriod
-from xsdata.models.datatype import XmlTime
+from xsdata.models.datatype import (
+    XmlDate,
+    XmlDateTime,
+    XmlDuration,
+    XmlPeriod,
+    XmlTime,
+)
 
 from xsdata_pydantic.fields import field
 
@@ -39,9 +42,20 @@ class FieldInfo(NamedTuple):
 
 class Config:
     arbitrary_types_allowed = True
+    use_enum_values = True
+    validate_default = True
 
 
-class AnyElement(BaseModel):
+class XsdataModel(BaseModel):
+    model_config: ConfigDict = ConfigDict(
+        arbitrary_types_allowed=True,
+        use_enum_values=True,
+        validate_default=True,
+        defer_build=True,
+    )
+
+
+class AnyElement(XsdataModel):
     """
     Generic model to bind xml document data to wildcard fields.
 
@@ -63,7 +77,7 @@ class AnyElement(BaseModel):
     )
 
 
-class DerivedElement(BaseModel, Generic[T]):
+class DerivedElement(XsdataModel, Generic[T]):
     """
     Generic model wrapper for type substituted elements.
 
@@ -101,12 +115,12 @@ class Pydantic(Dataclasses):
                 name=name,
                 init=False if info.init_var is False else True,
                 metadata=metadata,
-                default=info.default
-                if info.default is not PydanticUndefined
-                else MISSING,
-                default_factory=info.default_factory
-                if info.default_factory
-                else MISSING,
+                default=(
+                    info.default if info.default is not PydanticUndefined else MISSING
+                ),
+                default_factory=(
+                    info.default_factory if info.default_factory else MISSING
+                ),
             )
 
 

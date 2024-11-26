@@ -1,4 +1,4 @@
-from typing import Any, Dict, Optional, Callable
+from typing import Any, Callable, Dict, Optional
 
 from pydantic import fields
 from pydantic_core import PydanticUndefined
@@ -20,5 +20,8 @@ def field(
     **kwargs: Any,
 ):
     return FieldInfo(
-        metadata=metadata, default=default, default_factory=default_factory, **kwargs
+        metadata=metadata,
+        default=default,
+        default_factory=default_factory,
+        **kwargs,
     )
